@@ -47,10 +47,25 @@ async function updateUser(id, fields = {}) {
 }
 
 async function getAllUsers() {
+    console.log('in getAllUsers')
     try {
+        console.log('right before the query')
         const { rows } = await client.query(`
         SELECT id, username, name, location, active 
         FROM users;
+        `);
+        console.log('right after the query')
+
+        return rows;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function getAllTags() {
+    try {
+        const { rows } = await client.query(`
+        SELECT * FROM tags;
         `);
 
         return rows;
@@ -297,5 +312,6 @@ module.exports = {
     getPostsByUser,
     addTagsToPost,
     createTags,
-    getPostsByTagName
+    getPostsByTagName,
+    getAllTags
 }
