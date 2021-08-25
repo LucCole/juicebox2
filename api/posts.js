@@ -142,3 +142,4 @@ postsRouter.delete('/:postId', requireUser, async (req, res, next) => {
   });
 
 module.exports = postsRouter;
+//softwareupdate --all --install --force
