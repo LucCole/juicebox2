@@ -10,15 +10,40 @@ tagsRouter.use((req, res, next) => {
 
 tagsRouter.get('/:tagName/posts', async (req, res, next) => {
 
+
+
     const {tagName} = req.params
 
     console.log(tagName)
 
     try {
-        const posts = await getPostsByTagName(tagName);
+        const allPosts = await getPostsByTagName(tagName);
+
+
+        //http://localhost:3000/api/tags/%23sometagname/posts
+
+        // console.log('testing!!: ', (req.user && post.author.id === req.user.id))
+
+        const posts = allPosts.filter(post => {
+
+
+            // the post is active, doesn't matter who it belongs to
+            if (post.active) {
+                return true;
+            }
+
+            // the post is not active, but it belogs to the current user
+            if (post.active && (req.user && post.author.id === req.user.id)) {
+                return true;
+            }
+
+            // none of the above are true
+            return false;
+        });
+
         res.send({posts});
-    } catch ({ name, message }) {
-        throw { name, message };
+    } catch (error) {
+        next(error);
     }
 });
 

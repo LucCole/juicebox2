@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const usersRouter = express.Router();
-const { getAllUsers, getUserByUsername, createUser} = require('../db');
+const { getAllUsers, getUserByUsername, createUser, getUserById, updateUser} = require('../db');
 
 usersRouter.use((req, res, next) => {
   console.log("A request is being made to /users");
@@ -85,6 +85,53 @@ usersRouter.post('/register', async (req, res, next) => {
     } catch ({ name, message }) {
       next({ name, message })
     } 
+  });
+
+
+
+  usersRouter.delete('/:userId', requireUser, async (req, res, next) => {
+
+
+    try {
+      const user = await getUserById(req.params.userId);
+  
+      if (user && user.id === req.user.id) {
+        const updatedUser = await updateUser(post.id, { active: false });
+  
+        res.send({ updatedUser });
+      } else {
+        // if there was a post, throw UnauthorizedUserError, otherwise throw PostNotFoundError
+        next({ 
+          name: "UnauthorizedUserError",
+          message: "You cannot delete a user which is not yours"
+        });
+      }
+  
+    } catch (error) {
+      next(error)
+    }
+  });
+
+  usersRouter.patch('/:userId', requireUser, async (req, res, next) => {
+
+
+    try {
+      const user = await getUserById(req.params.userId);
+  
+      if (user && user.id === req.user.id) {
+        const updatedUser = await updateUser(post.id, { active: true });
+  
+        res.send({ user: updatedUser });
+      } else {
+        next({ 
+          name: "UnauthorizedUserError",
+          message: "You cannot update a user which is not yours"
+        });
+      }
+  
+    } catch (error) {
+      next(error)
+    }
   });
 
 module.exports = usersRouter;
