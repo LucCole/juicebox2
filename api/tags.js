@@ -33,7 +33,7 @@ tagsRouter.get('/:tagName/posts', async (req, res, next) => {
             }
 
             // the post is not active, but it belogs to the current user
-            if (post.active && (req.user && post.author.id === req.user.id)) {
+            if (req.user && post.author.id === req.user.id) {
                 return true;
             }
 

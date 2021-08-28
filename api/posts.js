@@ -2,7 +2,7 @@ const express = require('express');
 const postsRouter = express.Router();
 const { getAllPosts, createPost, updatePost, getPostById } = require('../db');
 
-const { requireActiveUser } = require('./utils');
+const { requireUser, requireActiveUser } = require('./utils');
 
 postsRouter.use((req, res, next) => {
     console.log("A request is being made to /posts");
