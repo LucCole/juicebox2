@@ -37,6 +37,7 @@ apiRouter.use(async (req, res, next) => {
   }
 });
 
+// works
 apiRouter.use((req, res, next) => {
     if (req.user) {
         console.log("User is set:", req.user);
@@ -56,7 +57,8 @@ const tagsRouter = require('./tags');
 apiRouter.use('/tags', tagsRouter);
 
 apiRouter.use((error, req, res, next) => {
-    res.send(error);
+    console.log('In error route');
+    res.send(error.name+': '+error.message);
   });
   
   module.exports = apiRouter;

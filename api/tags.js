@@ -5,12 +5,11 @@ const { getAllTags, getPostsByTagName } = require('../db');
 tagsRouter.use((req, res, next) => {
   console.log("A request is being made to /tags");
 
-  next(); // THIS IS DIFFERENT
+  next();
 });
 
+// works
 tagsRouter.get('/:tagName/posts', async (req, res, next) => {
-
-
 
     const {tagName} = req.params
 
@@ -19,25 +18,16 @@ tagsRouter.get('/:tagName/posts', async (req, res, next) => {
     try {
         const allPosts = await getPostsByTagName(tagName);
 
-
-        //http://localhost:3000/api/tags/%23sometagname/posts
-
-        // console.log('testing!!: ', (req.user && post.author.id === req.user.id))
-
         const posts = allPosts.filter(post => {
 
-
-            // the post is active, doesn't matter who it belongs to
             if (post.active) {
                 return true;
             }
 
-            // the post is not active, but it belogs to the current user
             if (req.user && post.author.id === req.user.id) {
                 return true;
             }
 
-            // none of the above are true
             return false;
         });
 
@@ -47,6 +37,7 @@ tagsRouter.get('/:tagName/posts', async (req, res, next) => {
     }
 });
 
+// works
 tagsRouter.get('/', async (req, res) => {
     const tags = await getAllTags();
   
@@ -54,7 +45,5 @@ tagsRouter.get('/', async (req, res) => {
       tags
     });
 });
-
-
 
 module.exports = tagsRouter;
