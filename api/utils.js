@@ -1,17 +1,15 @@
 function requireUser(req, res, next) {
-    console.log('requireUser');
     if (!req.user) {
-      next({
-        name: "MissingUserError",
-        message: "You must be logged in to perform this action"
-      });
+        next({
+            name: "MissingUserError",
+            message: "You must be logged in to perform this action"
+        });
     }
   
     next();
-  }
+}
 
-  function requireActiveUser(req, res, next) {
-    console.log('requireActiveUser');
+function requireActiveUser(req, res, next) {
     if (!req.user) {
         next({
             name: "MissingUserError",
@@ -25,9 +23,9 @@ function requireUser(req, res, next) {
     }
   
     next();
-  }
+}
   
-  module.exports = {
+module.exports = {
     requireUser,
     requireActiveUser
-  }
+}

@@ -4,12 +4,11 @@ const usersRouter = express.Router();
 const { getAllUsers, getUserByUsername, createUser, getUserById, updateUser} = require('../db');
 const { requireUser } = require('./utils');
 
-// works
 usersRouter.use((req, res, next) => {
   next();
 });
 
-// works
+// Get all users
 usersRouter.get('/', async (req, res) => {
     const users = await getAllUsers();
   
@@ -18,7 +17,7 @@ usersRouter.get('/', async (req, res) => {
     });
 });
 
-// works
+// Register user
 usersRouter.post('/register', async (req, res, next) => {
     const { username, password, name, location } = req.body;
 
@@ -57,7 +56,7 @@ usersRouter.post('/register', async (req, res, next) => {
     } 
 });
 
-// works
+// Login user
 usersRouter.post('/login', async (req, res, next) => {
     const { username, password } = req.body;
   
@@ -88,7 +87,7 @@ usersRouter.post('/login', async (req, res, next) => {
     }
 });
 
-// works
+// activate user
 usersRouter.patch('/:userId', requireUser, async (req, res, next) => {
 
     try {
@@ -112,7 +111,7 @@ usersRouter.patch('/:userId', requireUser, async (req, res, next) => {
     }
 });
 
-// works
+// deactivate user
 usersRouter.delete('/:userId', requireUser, async (req, res, next) => {
 
     try {

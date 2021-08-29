@@ -8,7 +8,16 @@ tagsRouter.use((req, res, next) => {
   next();
 });
 
-// works
+// Get all tags
+tagsRouter.get('/', async (req, res) => {
+    const tags = await getAllTags();
+  
+    res.send({
+      tags
+    });
+});
+
+// Get post by tag name
 tagsRouter.get('/:tagName/posts', async (req, res, next) => {
 
     const {tagName} = req.params
@@ -35,15 +44,6 @@ tagsRouter.get('/:tagName/posts', async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-});
-
-// works
-tagsRouter.get('/', async (req, res) => {
-    const tags = await getAllTags();
-  
-    res.send({
-      tags
-    });
 });
 
 module.exports = tagsRouter;
